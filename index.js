@@ -59,8 +59,13 @@ var SmartBanner = function(options) {
 	} else if (agent.os.name === 'Windows Phone' || agent.os.name === 'Windows Mobile') {
 		this.type = 'windows';
 	//iOS >= 6 has native support for SmartAppBanner
-	} else if (agent.os.name === 'iOS' && parseInt(agent.os.version) < 6) {
-		this.type = 'ios';
+    // but only in Safari, so we check browser name
+	} else if (agent.os.name === 'iOS') {
+        if (parseInt(agent.os.version) < 6) {
+            this.type = 'ios';
+        } else if (agent.browser.name !== 'Safari' && agent.browser.name !== 'Mobile Safari') {
+            this.type = 'ios';
+        }
 	} else if (agent.os.name === 'Android') {
 		this.type = 'android';
 	}
